@@ -54,7 +54,7 @@ afterAll(() => { server.close(); });
 test("load meteo mock", async () => {
   const { container } = render(<App />);
   await waitFor(() => screen.getByText(/Météo actuel/i));
-  expect(container.getElementsByTagName("img").length).toBe(1);
+  expect(container.getElementsByTagName("img").length).toBe(2);
 });
 
 test("load user mock", async () => {
