@@ -5,7 +5,7 @@ const useMeteo = () => {
   const [user, setUser] = useState<any>();
 
   const loadRandomUser = () => {
-    fetch("https://randomuser.me/api/")
+    fetch("https://randomuser.me/api")
       .then((res) => res.json())
       .then((res) => {
         setUser(res.results[0]);

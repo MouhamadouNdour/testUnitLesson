@@ -75,7 +75,7 @@ const Calculator = () => {
       </div>
       <div className="row keyboard">
         <div className="col-3">
-          <div data-value="%" onClick={() => addResult("%")}>
+          <div className="touch" data-value="%" onClick={() => addResult("%")}>
             %
           </div>
         </div>
