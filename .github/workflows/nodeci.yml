@@ -4,6 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout 🛎️
+        run: cd ..
       - name: Install 🔧
         run: npm install
       - name: Test 🚨
