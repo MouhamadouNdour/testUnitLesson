@@ -1,2 +1,2 @@
 # testUnitLesson
-![example workflow](https://github.com/MouhamadouNdour/testUnitLesson/actions/workflows/nodeci/badge.svg)
+![example workflow](https://github.com/MouhamadouNdour/testUnitLesson/actions/workflows/nodeci.yml/badge.svg)
