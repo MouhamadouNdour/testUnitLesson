@@ -23,7 +23,7 @@ test("result is good", () => {
   act(() => {
     ReactDOM.render(<Result value="5" />, container);
   });
-  expect(container.getElementsByClassName("result")[0].textContent).toEqual("4");
+  expect(container.getElementsByClassName("result")[0].textContent).toEqual("5");
 });
 
 test("test addition fonctional", () => {
