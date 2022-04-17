@@ -81,7 +81,6 @@ class ApiTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertJson($response->getContent());
         $responseData = json_decode($response->getContent());
-        print_r($responseData);
         $this->assertEquals(21, $responseData->products[0]->id);
     }
     
@@ -98,7 +97,6 @@ class ApiTest extends WebTestCase
          $this->assertJson($response->getContent());
          $responseData = json_decode($response->getContent(), true);
          $this->assertEquals(["error" => "too many"], $responseData);
-    
       }
 
     public function testCart(): void {

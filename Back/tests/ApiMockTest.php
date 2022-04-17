@@ -55,7 +55,7 @@ class ApiMockTest extends TestCase {
         $responseJson = $response->getContent();
         $responseData = json_decode($responseJson, true, 512, JSON_THROW_ON_ERROR);
         
-        self::assertSame('POST', $mockResponse->getRequestMethod());
+        $this->assertSame('POST', $mockResponse->getRequestMethod());
         self::assertSame('http://localhost:8000/api/products', $mockResponse->getRequestUrl());
         self::assertContains('Content-Type: application/json', $mockResponse->getRequestOptions()['headers']);
         self::assertSame($expectedRequestData, $mockResponse->getRequestOptions()['body']);
