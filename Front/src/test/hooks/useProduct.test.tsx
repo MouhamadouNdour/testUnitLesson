@@ -2,6 +2,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { renderHook, act } from '@testing-library/react-hooks'
 import useCart from "../../hooks/useCart";
+import useProduct from "../../hooks/useProduct";
 
 const server = setupServer(
     rest.get(
@@ -29,9 +30,31 @@ const server = setupServer(
                         price: '20',
                         quantity: 20,
                         image: 'https://rickandmortyapi.com/api/character/avatar/15.jpeg'
-                    }
-                    ]
+                    }]
                 }))
+        }),
+    rest.post(
+        "http://localhost:8000/api/cart/15",
+        (req, res, ctx) => {
+            // @ts-ignore  
+            if (req.body.quantity == 100) {
+                return res(
+                    ctx.json({ 'error': 'quantity' })
+                )
+            }
+            else {
+                return res(
+                    ctx.json({
+                        products: [
+                            {
+                                id: 15,
+                                name: 'Alien Rick',
+                                price: '20',
+                                quantity: 20,
+                                image: 'https://rickandmortyapi.com/api/character/avatar/15.jpeg'
+                            }]
+                    }))
+            }
         }),
     // remove
 );
@@ -43,7 +66,7 @@ afterAll(() => server.close());
 
 jest.setTimeout(30000);
 
-test("load cart", async () => {
+test("Call addProduct Good quantity", async () => {
     const { result } = renderHook(() => useCart());
     const { loading, loadCart } = result.current;
     expect(loading).toEqual(true);
@@ -51,23 +74,37 @@ test("load cart", async () => {
         await loadCart()
     });
     const { products } = result.current;
-    console.log(products);
-    expect(products.length).toEqual(3);
+    const result2 = renderHook(() => useProduct(products[1])).result;
+    const { setQuantity } = result2.current;
+    await act(async () => {
+        setQuantity(1)
+    });
+    const { addProduct } = result2.current;
+    await act(async () => {
+        await addProduct()
+    });
+    const message2 = result2.current.message;
+    expect(message2).toBe("Enregistré dans le panier")
 })
 
-test("remove cart", async () => {
+test("Call addProduct bad quantity", async () => {
     const { result } = renderHook(() => useCart());
-    const { loading, loadCart, removeToCart } = result.current;
+    const { loading, loadCart } = result.current;
     expect(loading).toEqual(true);
     await act(async () => {
         await loadCart()
     });
     const { products } = result.current;
-    console.log(products[0]);
+    const result2 = renderHook(() => useProduct(products[1])).result;
+    const { setQuantity } = result2.current;
     await act(async () => {
-        await removeToCart(products[0])
+        setQuantity(100)
     });
-    const { message } = result.current;
-    expect(message).toBe("Produit bien supprimé")
+    const { addProduct } = result2.current;
+    await act(async () => {
+        await addProduct()
+    });
+    const products2 = result2.current;
+    expect(products2.message).toBe("Trop de quantité")
 })
 
