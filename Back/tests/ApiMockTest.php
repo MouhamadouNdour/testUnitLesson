@@ -9,18 +9,6 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class ApiMockTest extends WebTestCase {
 
-    
-    public function testProducts() : void {
-        $client = static::createClient();
-        // Request a specific page
-        $client->jsonRequest('GET', '/api/products');
-        $response = $client->getResponse();
-        $this->assertResponseIsSuccessful();
-        $this->assertJson($response->getContent());
-        $responseData = json_decode($response->getContent(), true);
-        $this->assertNotEmpty($responseData);
-    }
-
     /** @test */
     public function products(): void {
 
