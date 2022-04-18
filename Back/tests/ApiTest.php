@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ApiTest extends WebTestCase
 {
-    public function testApiAddition(): void
+    public function testIndex(): void
     {
         $client = static::createClient();
         // Request a specific page
