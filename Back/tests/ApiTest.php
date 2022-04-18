@@ -74,14 +74,15 @@ class ApiTest extends WebTestCase
     public function testAddProductToCart(): void {
         $client = static::createClient();
         // Request a specific page
-        $client->jsonRequest('POST', '/api/cart/21', [
+        $id = $this->getProducts($client)['id'];
+        $client->jsonRequest('POST', '/api/cart/'.$id, [
             'quantity' => 2
         ]);
         $response = $client->getResponse();
         $this->assertResponseIsSuccessful();
         $this->assertJson($response->getContent());
         $responseData = json_decode($response->getContent());
-        $this->assertEquals(21, $responseData->products[0]->id);
+        $this->assertEquals(1, $responseData->products[0]->id);
     }
     
     public function testAddProductToCartMany(): void
@@ -112,8 +113,9 @@ class ApiTest extends WebTestCase
 
     public function testDeleteProductToCart(): void {
         $client = static::createClient();
+        $id = $this->getProducts($client)['id'];
         // Request a specific page
-        $client->jsonRequest('DELETE', '/api/cart/21');
+        $client->jsonRequest('DELETE', '/api/cart/'.$id);
         $response = $client->getResponse();
         $this->assertResponseIsSuccessful();
         $this->assertJson($response->getContent());
@@ -123,8 +125,9 @@ class ApiTest extends WebTestCase
     
     public function testDelete(): void {
         $client = static::createClient();
+        $id = $this->getProducts($client)['id'];
         // Request a specific page
-        $client->jsonRequest('DELETE', '/api/products/21');
+        $client->jsonRequest('DELETE', '/api/products/'.$id);
         $response = $client->getResponse();
         $this->assertResponseIsSuccessful();
         $this->assertJson($response->getContent());
